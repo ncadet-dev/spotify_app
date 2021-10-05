@@ -24,7 +24,7 @@ class getAuthUrl(APIView):
 def spotify_callback(request, format=None):
     """Handle the response from Spotify after user authentication."""
     code = request.GET.get('code')
-    if error := request.get('error'):
+    if error := request.GET.get('error'):
         raise SpotifyCallbackError(
             "The following error was raised when tyring to authenticate to "
             f"Spotify: {error}"
@@ -39,7 +39,7 @@ def spotify_callback(request, format=None):
     token_type = response.get('token_type')
 
     # Create a session if this one does not exits
-    if not request.session.exists(request.sessions.session_key):
+    if not request.session.exists(request.session.session_key):
         request.session.create()
 
     update_or_create_user_token(

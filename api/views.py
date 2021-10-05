@@ -10,7 +10,7 @@ from auth_management.utils import is_user_authenticated, get_user_token
 
 
 SPOTIFY_AUTH = SpotifyAuth()
-SPOTIFY_API_URL = 'https:/api.spotify.com'
+SPOTIFY_API_URL = 'https://api.spotify.com'
 
 
 class NewreleasesArtists(APIView):
@@ -28,20 +28,46 @@ class NewreleasesArtists(APIView):
             return redirect(SPOTIFY_AUTH.get_user())
 
         # request the spotify endpoint '/v1/browse/new-releases'
+        limit = 50
+        offset = 0
         url = SPOTIFY_API_URL + '/v1/browse/new-releases'
         response = get(
             url,
+            params={'limit': limit, 'offset': offset},
             headers={
-                'Authorization': f'{token.token.type} {token.access_token}'
+                'Authorization': f'{token.token_type} {token.access_token}'
             }
         )
 
         # Check status code
+        print(response.status_code)
         if response.status_code not in [200, 201]:
             raise GetNewReleaseError(
                 "Could not retrieve artists from the endpoint "
                 f"'/v1/browse/new-releases': {response.text}"
             )
 
+        # store data in a dictionary
+        result = response.json()
+
+        # Loop over the pagination to retrieve all albums
+        while response.json()['albums']['next'] is not None:
+            offset += limit
+            response = get(
+                url,
+                params={'limit': limit, 'offset': offset},
+                headers={
+                    'Authorization': f'{token.token_type} {token.access_token}'
+                }
+            )
+
+            if response.status_code not in [200, 201]:
+                raise GetNewReleaseError(
+                    "Could not retrieve artists from the endpoint "
+                    f"'/v1/browse/new-releases': {response.text}"
+                )
+
+            result['albums'].update(response.json()['albums'])
+
         # Display response
-        return Response(response.json())
+        return Response(result)
