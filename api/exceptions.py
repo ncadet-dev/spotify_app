@@ -1,0 +1,2 @@
+class GetNewReleaseError(Exception):
+    pass

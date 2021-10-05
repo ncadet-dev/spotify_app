@@ -3,7 +3,7 @@ import json
 import requests
 import os
 
-from .exceptions import RefreshTokenError, PostRefreshError
+from .exceptions import RefreshTokenError, PostRefreshError, GetTokenError
 
 
 class SpotifyAuth(object):
@@ -47,6 +47,12 @@ class SpotifyAuth(object):
             params=body,
             headers=headers
         )
+
+        if post.status_code not in (200, 201):
+            raise GetTokenError(
+                "Could not retrieve token from endpoint "
+                f"{self.SPOTIFY_URL_TOKEN} with code: {code}"
+            )
         return self.handle_token(json.loads(post.text))
 
     def handle_token(self, response):

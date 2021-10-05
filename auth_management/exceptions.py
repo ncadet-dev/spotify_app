@@ -4,3 +4,7 @@ class RefreshTokenError(Exception):
 
 class PostRefreshError(Exception):
     pass
+
+
+class GetTokenError(Exception):
+    pass
