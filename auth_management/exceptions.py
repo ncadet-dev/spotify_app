@@ -8,3 +8,7 @@ class PostRefreshError(Exception):
 
 class GetTokenError(Exception):
     pass
+
+
+class SpotifyCallbackError(Exception):
+    pass
