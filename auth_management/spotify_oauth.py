@@ -66,17 +66,28 @@ class SpotifyAuth(object):
     def refresh_auth(self, refresh_token):
         body = {"grant_type": "refresh_token", "refresh_token": refresh_token}
 
+        encoded = base64.b64encode(
+            f"{self.CLIENT_ID}:{self.CLIENT_SECRET}".encode()
+        ).decode()
+        headers = {
+            "Content-Type": self.HEADER,
+            "Authorization": f"Basic {encoded}",
+        }
+
         post_refresh = requests.post(
-            self.SPOTIFY_URL_TOKEN, data=body, headers=self.HEADER
+            self.SPOTIFY_URL_TOKEN,
+            data=body,
+            headers=headers
         )
 
         if post_refresh.status_code not in (200, 201):
             raise PostRefreshError(
                 f"Post for token refreshment went wrong: {post_refresh.text}"
             )
-        p_back = json.dumps(post_refresh.text)
 
-        return self.handleToken(p_back)
+        p_back = json.loads(post_refresh.text)
+
+        return self.handle_token(p_back)
 
     def get_user(self):
         return self.get_auth_url(

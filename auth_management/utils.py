@@ -1,9 +1,10 @@
 from datetime import timedelta
 from django.utils import timezone
 from .models import SpotifyToken
+from .spotify_oauth import SpotifyAuth
 
 
-SPOTIFY_AUTH = SpotifyToken()
+SPOTIFY_AUTH = SpotifyAuth()
 
 
 def get_user_token(session_id):
@@ -67,7 +68,7 @@ def refresh_spotify_token(session_id):
     update_or_create_user_token(
         session_id,
         access_token,
-        token_type,
+        refresh_token,
         expires_in,
-        refresh_token
+        token_type
     )
