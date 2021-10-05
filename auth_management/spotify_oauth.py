@@ -3,6 +3,8 @@ import json
 import requests
 import os
 
+from .exceptions import RefreshTokenError, PostRefreshError
+
 
 class SpotifyAuth(object):
     SPOTIFY_URL_AUTH = "https://accounts.spotify.com/authorize/"
@@ -49,11 +51,11 @@ class SpotifyAuth(object):
 
     def handle_token(self, response):
         if "error" in response:
-            return response
-        return {
-            key: response[key]
-            for key in ["access_token", "expires_in", "refresh_token"]
-        }
+            raise RefreshTokenError(
+                "An error occured in the refreshment of the access token"
+                f": {response['error']}"
+            )
+        return response
 
     def refresh_auth(self, refresh_token):
         body = {"grant_type": "refresh_token", "refresh_token": refresh_token}
@@ -61,6 +63,11 @@ class SpotifyAuth(object):
         post_refresh = requests.post(
             self.SPOTIFY_URL_TOKEN, data=body, headers=self.HEADER
         )
+
+        if post_refresh.status_code not in (200, 201):
+            raise PostRefreshError(
+                f"Post for token refreshment went wrong: {post_refresh.text}"
+            )
         p_back = json.dumps(post_refresh.text)
 
         return self.handleToken(p_back)
