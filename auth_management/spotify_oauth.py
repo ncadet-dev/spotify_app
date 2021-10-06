@@ -48,10 +48,9 @@ class SpotifyAuth(object):
             headers=headers
         )
 
-        if post.status_code not in (200, 201):
+        if post.status_code not in [200, 201, 202, 203, 204]:
             raise GetTokenError(
-                "Could not retrieve token from endpoint "
-                f"{self.SPOTIFY_URL_TOKEN} with code: {code}"
+                f"Could not retrieve token: [{post.status_code}] {post.text}"
             )
         return self.handle_token(json.loads(post.text))
 
@@ -80,9 +79,10 @@ class SpotifyAuth(object):
             headers=headers
         )
 
-        if post_refresh.status_code not in (200, 201):
+        if post_refresh.status_code not in [200, 201, 202, 203, 204]:
             raise PostRefreshError(
-                f"Post for token refreshment went wrong: {post_refresh.text}"
+                "Post for token refreshment went wrong: "
+                f"[{post_refresh.status_code}] {post_refresh.text}"
             )
 
         p_back = json.loads(post_refresh.text)

@@ -1,2 +1,2 @@
-class GetNewReleaseError(Exception):
+class GetNewReleasesError(Exception):
     pass
