@@ -8,16 +8,16 @@ The package `pipenv` is installed on machine
 python -m pip install --user pipenv
 ```
 
-Connect to a postgre database by informing the following environment variables:
-`POSTGRESQL_DATABASE_NAME`
-`POSTGRESQL_DATABASE_USER`
-`POSTGRESQL_DATABASE_PASSWORD`
-`POSTGRESQL_DATABASE_HOST`
+Connect to a postgre database by informing the following environment variables:\
+`POSTGRESQL_DATABASE_NAME`\
+`POSTGRESQL_DATABASE_USER`\
+`POSTGRESQL_DATABASE_PASSWORD`\
+`POSTGRESQL_DATABASE_HOST`\
 `POSTGRESQL_DATABASE_PORT`
 
 Set the client ID and client secret from Spotify to allow authorization. This
-can be obtained from [Spotify for developers](https://developer.spotify.com/)
-`CLIENT_ID`
+can be obtained from [Spotify for developers](https://developer.spotify.com/)\
+`CLIENT_ID`\
 `CLIENT_SECRET`
 
 These variables can be set in a `.env` file for local development.
