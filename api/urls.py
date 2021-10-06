@@ -6,5 +6,5 @@ from . import views
 app_name = 'api'
 
 urlpatterns = [
-    path('artists/', views.NewreleasesArtists.as_view(), name='new_releases')
+    path('artists/', views.NewReleasesView.as_view(), name='new_releases')
 ]

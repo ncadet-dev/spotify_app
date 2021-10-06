@@ -16,7 +16,7 @@ SPOTIFY_AUTH = SpotifyAuth()
 SPOTIFY_API_URL = 'https://api.spotify.com'
 
 
-class NewreleasesArtists(APIView):
+class NewReleasesView(APIView):
     """Manage new releases on Spotify."""
 
     def get(self, request, format=None):
