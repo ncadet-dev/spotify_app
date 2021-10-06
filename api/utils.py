@@ -1,5 +1,6 @@
 from requests import get
 
+from .exceptions import GetNewReleasesError
 from .models import NewReleases, Artist
 
 

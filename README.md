@@ -1,6 +1,7 @@
 # spotify_app
 A small Spotify app making use of the Spotify API and Rest Framework to display data
 
+
 ## Pre-requisite
 The package `pipenv` is installed on machine
 
@@ -24,11 +25,17 @@ These variables can be set in a `.env` file for local development. This file
 needs to be located at the root of the project and is ignored when changes
 are commited.
 
+
+## Redirection authorization in Spotify for Developers
+Allow the redirection to the address `http://localhost:5000/auth/callback`
+
+
 ## Install (locally)
 This will install all necessary packages for local development.
 ```
 pipenv install --dev
 ```
+
 
 ## Create and update database (Postgre)
 This below command will migrate changes onto the database, creating, altering
@@ -38,11 +45,6 @@ run as expected.
 pipenv run python manage.py migrate
 ```
 
-## Listing all URLS of the server
-Thanks to `django-extensions` package
-```
-pipenv run python manage.py show_urls
-```
 
 ## Run server
 The following command allows the server to run on localhost on port 5000.
@@ -51,12 +53,14 @@ This port is used for development so make sure to inform it.
 pipenv run python manage.py runserver 5000
 ```
 
+
 ## Create super user
 Creating a super user will permit fiddling with the django admin, which will,
 in turn, allow you to manage the database.
 ```
 pipenv run python manage.py createsuperuser
 ```
+
 
 ## Configure for production
 Configure the following keys should you require the application in production

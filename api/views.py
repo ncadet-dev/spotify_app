@@ -4,7 +4,6 @@ from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .exceptions import GetNewReleasesError
 from .models import NewReleases
 from .serializers import NewReleasesSerializer
 from .utils import assign_artists_to_new_releases, merge_get_artists_requests
